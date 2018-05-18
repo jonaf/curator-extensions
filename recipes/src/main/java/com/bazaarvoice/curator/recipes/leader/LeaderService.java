@@ -315,7 +315,7 @@ public class LeaderService extends AbstractExecutionThreadService {
             public void failed(State from, Throwable failure) {
                 closeLeaderLatch();
             }
-        }, MoreExecutors.sameThreadExecutor());
+        }, MoreExecutors.directExecutor());
         return delegate;
     }
 }

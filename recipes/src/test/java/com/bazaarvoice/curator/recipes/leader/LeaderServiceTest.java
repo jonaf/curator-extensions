@@ -1,6 +1,8 @@
 package com.bazaarvoice.curator.recipes.leader;
 
 import com.bazaarvoice.curator.test.ZooKeeperTest;
+
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
@@ -325,7 +327,7 @@ public class LeaderServiceTest extends ZooKeeperTest {
     }
 
     private static Service trackEvents(String id, List<Event> events, Service service) {
-        service.addListener(new EventListener(id, events), MoreExecutors.sameThreadExecutor());
+        service.addListener(new EventListener(id, events), MoreExecutors.directExecutor());
         return service;
     }
 
@@ -355,7 +357,7 @@ public class LeaderServiceTest extends ZooKeeperTest {
         private final Trigger _failed = new Trigger();
 
         public <T extends Service> T listenTo(T service) {
-            service.addListener(this, MoreExecutors.sameThreadExecutor());
+            service.addListener(this, MoreExecutors.directExecutor());
             return service;
         }
 
@@ -406,7 +408,7 @@ public class LeaderServiceTest extends ZooKeeperTest {
         private Long _stoppedAt;
 
         public <T extends Service> T listenTo(T service) {
-            service.addListener(this, MoreExecutors.sameThreadExecutor());
+            service.addListener(this, MoreExecutors.directExecutor());
             return service;
         }
 
@@ -502,7 +504,7 @@ public class LeaderServiceTest extends ZooKeeperTest {
 
         @Override
         public String toString() {
-            return Objects.toStringHelper(this)
+            return MoreObjects.toStringHelper(this)
                     .add("id", _id)
                     .add("state", _state)
                     .toString();
